@@ -37,3 +37,36 @@ jobs:
         with:
           name: deb-build
           path: src-tauri/target/release/bundle/deb/*.deb
+          
+  build-android:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Add Android Target
+        run: rustup target add aarch64-linux-android
+
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli
+
+      - name: Setup Android
+        run: cargo tauri android init
+
+      - name: Build APK
+        run: cargo tauri android build
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-build
+          path: src-tauri/gen/android/app/build/outputs/apk/release/*.apk
