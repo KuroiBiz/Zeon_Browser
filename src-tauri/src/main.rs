@@ -1,15 +1,15 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::sync::Mutex;
-use tauri::{Manager, WebviewUrl};
+use tauri::Manager;
 use url::Url;
 
 struct BrowserState {
     history: Mutex<Vec<String>>,
 }
 
+// simple ad filter
 fn is_ad_url(url: &str) -> bool {
-    // intentionally light filtering to avoid breaking websites
     let ad_domains = [
         "doubleclick.net",
         "googlesyndication.com",
@@ -31,8 +31,13 @@ fn navigate(window: tauri::WebviewWindow, url: String) -> Result<(), String> {
     }
 
     let parsed = Url::parse(&url).map_err(|e| e.to_string())?;
-
     window.navigate(parsed).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn record_history(state: tauri::State<BrowserState>, url: String) {
+    let mut history = state.history.lock().unwrap();
+    history.push(url);
 }
 
 #[tauri::command]
@@ -50,7 +55,6 @@ fn main() {
 
             println!("Zeon Browser started");
 
-            // small JS hook injected when page loads
             window.eval(
                 r#"
                 console.log("Zeon Browser runtime active");
