@@ -1,58 +1,74 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{WindowEvent, WebviewWindow};
+use std::sync::Mutex;
+use tauri::{Manager, WebviewUrl};
+
+struct BrowserState {
+    history: Mutex<Vec<String>>,
+}
+
+fn is_ad_url(url: &str) -> bool {
+    // intentionally light filtering to avoid breaking websites
+    let ad_domains = [
+        "doubleclick.net",
+        "googlesyndication.com",
+        "adsystem.com",
+        "adservice.google",
+        "adnxs.com",
+        "taboola.com",
+        "outbrain.com",
+    ];
+
+    ad_domains.iter().any(|d| url.contains(d))
+}
 
 #[tauri::command]
-fn clean_data(window: tauri::Window) {
-    #[cfg(target_os = "linux")] // Only run this on Linux
-    window.with_webview(|webview| {
-        use webkit2gtk::{WebViewExt, WebsiteDataManagerExt};
-        if let Some(wv) = webview.downcast_ref::<webkit2gtk::WebView>() {
-            let context = wv.context();
-            context.clear_cache();
-            context.clear_all_databases();
-        }
-    }).ok();
+fn navigate(window: tauri::WebviewWindow, url: String) -> Result<(), String> {
+    if is_ad_url(&url) {
+        println!("Blocked ad request: {}", url);
+        return Ok(());
+    }
+
+    window
+        .navigate(WebviewUrl::External(url.parse().unwrap()))
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn record_history(state: tauri::State<BrowserState>, url: String) {
+    let mut history = state.history.lock().unwrap();
+    history.push(url);
+}
+
+#[tauri::command]
+fn get_history(state: tauri::State<BrowserState>) -> Vec<String> {
+    state.history.lock().unwrap().clone()
 }
 
 fn main() {
     tauri::Builder::default()
+        .manage(BrowserState {
+            history: Mutex::new(Vec::new()),
+        })
         .setup(|app| {
-            let window: WebviewWindow = app.get_webview_window("main").unwrap();
+            let window = app.get_webview_window("main").unwrap();
 
-            window
-                .with_webview(|webview| {
-                    use webkit2gtk::{
-                        CookieAcceptPolicy,
-                        SettingsExt,
-                        WebViewExt,
-                    };
+            println!("Zeon Browser started");
 
-                    if let Some(wv) = webview.downcast_ref::<webkit2gtk::WebView>() {
-
-                        // Block third-party cookies
-                        let context = wv.context();
-                        context.set_cookie_accept_policy(
-                            CookieAcceptPolicy::NoThirdParty,
-                        );
-
-                        // Browser engine settings
-                        if let Some(settings) = wv.settings() {
-                            settings.set_enable_webgl(true);
-                            settings.set_enable_developer_extras(false);
-                        }
-                    }
-                })
-                .ok();
+            // small JS hook injected when page loads
+            window.eval(
+                r#"
+                console.log("Zeon Browser runtime active");
+                "#,
+            )?;
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![clean_data])
-        .on_window_event(|window, event| {
-            if let WindowEvent::CloseRequested { .. } = event {
-                clean_data(window.clone());
-            }
-        })
+        .invoke_handler(tauri::generate_handler![
+            navigate,
+            record_history,
+            get_history
+        ])
         .run(tauri::generate_context!())
-        .expect("error running app");
+        .expect("error while running Zeon Browser");
 }
