@@ -1,53 +1,56 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{Manager, WindowEvent};
+use tauri::{WindowEvent, WebviewWindow};
 
 #[tauri::command]
 fn clean_data(window: tauri::Window) {
-    window.with_webview(|webview| {
-        #[cfg(target_os = "linux")]
-        {
-            use webkit2gtk::{WebViewExt, WebsiteDataManagerExt};
+    window
+        .with_webview(|webview| {
+            #[cfg(target_os = "linux")]
+            {
+                use webkit2gtk::{WebViewExt, WebsiteDataManagerExt};
 
-            if let Some(wv) = webview.downcast_ref::<webkit2gtk::WebView>() {
-                let context = wv.context();
-                context.clear_cache();
-                context.clear_all_databases();
+                if let Some(wv) = webview.downcast_ref::<webkit2gtk::WebView>() {
+                    let context = wv.context();
+                    context.clear_cache();
+                    context.clear_all_databases();
+                }
             }
-        }
-    }).ok();
+        })
+        .ok();
 }
 
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            let window = app.get_window("main").unwrap();
+            let window: WebviewWindow = app.get_webview_window("main").unwrap();
 
-            window.with_webview(|webview| {
-                #[cfg(target_os = "linux")]
-                {
-                    use webkit2gtk::{
-                        WebViewExt,
-                        SettingsExt,
-                        CookieAcceptPolicy,
-                    };
+            window
+                .with_webview(|webview| {
+                    #[cfg(target_os = "linux")]
+                    {
+                        use webkit2gtk::{
+                            CookieAcceptPolicy,
+                            SettingsExt,
+                            WebViewExt,
+                        };
 
-                    if let Some(wv) = webview.downcast_ref::<webkit2gtk::WebView>() {
+                        if let Some(wv) = webview.downcast_ref::<webkit2gtk::WebView>() {
+                            // Block third-party cookies
+                            let context = wv.context();
+                            context.set_cookie_accept_policy(
+                                CookieAcceptPolicy::NoThirdParty,
+                            );
 
-                        // 🔒 Block third-party cookies
-                        let context = wv.context();
-                        context.set_cookie_accept_policy(
-                            CookieAcceptPolicy::NoThirdParty
-                        );
-
-                        // 🎨 Dark mode for GUI (not websites)
-                        if let Some(settings) = wv.settings() {
-                            settings.set_enable_webgl(true); // keep normal rendering
-                            settings.set_enable_developer_extras(false);
+                            // Browser settings
+                            if let Some(settings) = wv.settings() {
+                                settings.set_enable_webgl(true);
+                                settings.set_enable_developer_extras(false);
+                            }
                         }
                     }
-                }
-            }).ok();
+                })
+                .ok();
 
             Ok(())
         })
