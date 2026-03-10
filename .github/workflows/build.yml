@@ -30,11 +30,18 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Cache Rust
-        uses: Swatinem/rust-cache@v2
+      # Restore cargo cache BEFORE build
+      - name: Cache cargo + build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Tauri CLI
-        run: cargo install tauri-cli
+        run: cargo install tauri-cli --locked
 
       - name: Build Tauri App
         run: cargo tauri build
