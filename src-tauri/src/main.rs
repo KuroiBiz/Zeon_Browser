@@ -2,6 +2,7 @@
 
 use std::sync::Mutex;
 use tauri::{Manager, WebviewUrl};
+use url::Url;
 
 struct BrowserState {
     history: Mutex<Vec<String>>,
@@ -29,15 +30,9 @@ fn navigate(window: tauri::WebviewWindow, url: String) -> Result<(), String> {
         return Ok(());
     }
 
-    window
-        .navigate(WebviewUrl::External(url.parse().unwrap()))
-        .map_err(|e| e.to_string())
-}
+    let parsed = Url::parse(&url).map_err(|e| e.to_string())?;
 
-#[tauri::command]
-fn record_history(state: tauri::State<BrowserState>, url: String) {
-    let mut history = state.history.lock().unwrap();
-    history.push(url);
+    window.navigate(parsed).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
