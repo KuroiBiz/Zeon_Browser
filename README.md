@@ -1,72 +1,143 @@
-# 🌐 Zeon Browser
+# 🌐 Zeon Browser – Lightweight Rust Web Browser for Linux
 
-Zeon Browser is a lightweight browser built with **Rust 🦀** and **Tauri 🪶**, designed to run smoothly even on low-end devices.
+**Zeon Browser** is a lightweight, open-source web browser built with **Rust 🦀** and **Tauri 🪶** using the **WebKitGTK rendering engine**.
+It is designed to run fast on **low-end Linux devices**, older laptops, and minimal systems where modern browsers often struggle.
 
----
-
-## ✨ Features
-
-- 🌍 **Fast Web Loading** – Optimized for speed on modest hardware.
-- 🧹 **Built-in Cleaner** – Instant cookie and cache clearing on exit.
-- 🛡️ **Privacy Focused** – Automatic third-party cookie blocking.
-- 🧩 **Minimalist UI** – A distraction-free interface that stays out of your way.
+Unlike heavy Chromium-based browsers, **Zeon Browser focuses on simplicity, speed, and privacy**, making it ideal for users who want a fast and minimal browsing experience.
 
 ---
 
-## 💻 Supported Platforms
+# 🚀 Why Zeon Browser?
 
-- 🐧 **Linux** (`.deb`, `AppImage`)
+Most modern browsers assume powerful hardware. Many users still rely on modest machines with limited RAM and CPU power.
 
----
+**Zeon Browser solves this problem by staying lightweight and efficient.**
 
-## 🛠️ Built With
+Key advantages:
 
-- **Language:** [Rust](https://www.rust-lang.org/)
-- **Framework:** [Tauri](https://tauri.app/)
-- **Engine:** WebKitGTK (Linux Native via `webkit2gtk`)
+* ⚡ **Extremely small package size (~2.9 MB)**
+* 🧠 **Low memory usage**
+* 🐧 **Native Linux integration**
+* 🔐 **Privacy-friendly defaults**
+* 🧩 **Minimal and distraction-free interface**
 
----
-
-## 🧠 Philosophy
-
-Modern browsers often assume everyone has powerful hardware. Many people still rely on low-end devices, where heavy browsers struggle to run.
-
-Zeon Browser exists to bridge that gap — providing a simple, lightweight way for people on modest hardware to access the modern web.
-
-> ⚡ **The web should be accessible to everyone, not just powerful machines.**
+If you are looking for a **lightweight Linux browser**, Zeon is designed for you.
 
 ---
 
-## Compare to modern browsers
+# ✨ Features
 
-Lets compare our Zeon Browser to modern browsers.
+### 🌍 Fast Web Loading
 
-| Browser | Cold start time | RAM usage |
-| ------- | --------------- | --------- |
-| Chrome  | 1.8s            | 420 MB    |
-| Firefox | 1.5s            | 350 MB    |
-| Zeon    | 0.4s            | 110 MB    |
+Zeon Browser uses **WebKitGTK**, the same engine used by many native Linux browsers, allowing efficient page rendering without the overhead of Chromium.
+
+### 🧹 Built-in Privacy Cleaner
+
+Automatically clears cookies and cache when the browser exits.
+
+### 🛡️ Privacy Focused
+
+Third-party cookies are blocked by default to reduce tracking.
+
+### 🧩 Minimalist Interface
+
+A clean and simple interface that keeps the focus on browsing.
+
+### ⚙️ Optimized for Low-End Hardware
+
+Designed for systems with limited RAM and CPU resources.
 
 ---
 
-## 🏗️ Development (Linux)
+# 💻 Supported Platforms
 
-To build Zeon Browser locally, ensure you have the following dependencies installed:
+Currently supported:
+
+* 🐧 **Linux**
+
+  * `.deb`
+  * `AppImage`
+
+Future platforms planned:
+
+* Windows
+* macOS
+
+---
+
+# 🛠️ Technology Stack
+
+Zeon Browser is built with modern technologies:
+
+* **Language:** Rust
+* **Framework:** Tauri
+* **Rendering Engine:** WebKitGTK (`webkit2gtk`)
+* **UI:** GTK (via Tauri)
+
+This architecture keeps the browser lightweight while using native system libraries.
+
+---
+
+# 📦 Installation (Linux)
+
+Download the latest release from the repository.
+
+Or install dependencies and build from source.
+
+---
+
+# 🏗️ Build From Source
+
+Install dependencies:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
+sudo apt update
+sudo apt install -y libgtk-3-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
 ```
 
-then run
+Install Rust if not installed:
+
+https://rustup.rs/
+
+Run the development build:
+
 ```bash
-	cargo run tauri
+cargo tauri dev
 ```
- 
- **NOTE: You should install Rust for this.**
 
- ## 🔗 Learn More
- Visit our official website to learn more about the project:
- 👉 [kuroi.dev](https://kuroi.dev/)
+---
 
- 
+# 📊 Project Goals
+
+The goal of Zeon Browser is simple:
+
+> Provide a fast, lightweight web browser that works well even on modest hardware.
+
+Many browsers today require large amounts of RAM and CPU power. Zeon aims to provide a **minimal and efficient alternative for Linux users**.
+
+---
+
+# 🔗 Official Website
+
+Learn more about the project:
+
+https://kuroi.dev/
+
+---
+
+# 📜 License
+
+This project is open-source.
+
+---
+
+# ⭐ Support the Project
+
+If you find **Zeon Browser** useful:
+
+* ⭐ Star the repository
+* 🐛 Report issues
+* 💡 Suggest features
+* 🔧 Contribute improvements
+
+Open-source projects grow with community support.
