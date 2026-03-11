@@ -1,67 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Zeon Browser</title>
 
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-body {
-  margin:0;
-  font-family: system-ui;
+.view{
+width:100%;
+height:calc(100vh - 90px);
+border:none;
 }
 
-#navbar {
-  display:flex;
-  padding:8px;
-  background:#1e1e1e;
+.tab{
+padding:6px 12px;
+background:#1f2937;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
 }
 
-#url {
-  flex:1;
-  padding:6px;
-}
-
-#tabs {
-  display:flex;
-  background:#2b2b2b;
-}
-
-.tab {
-  padding:8px 12px;
-  cursor:pointer;
-  color:white;
-}
-
-.tab.active {
-  background:#444;
-}
-
-iframe {
-  width:100%;
-  height:calc(100vh - 80px);
-  border:none;
-  display:none;
-}
-
-iframe.active {
-  display:block;
+.tab.active{
+background:#059669;
 }
 </style>
+
 </head>
 
-<body>
+<body class="bg-gray-900 text-white">
 
-<div id="tabs"></div>
+<div class="flex flex-col h-screen">
 
-<div id="navbar">
-<button onclick="newTab()">+</button>
-<input id="url" placeholder="Enter URL"/>
-<button onclick="go()">Go</button>
+<!-- Top Bar -->
+<div class="p-2 bg-gray-800 flex items-center gap-2">
+
+<button onclick="goBack()" class="px-2 py-1 bg-gray-700 rounded">←</button>
+<button onclick="goForward()" class="px-2 py-1 bg-gray-700 rounded">→</button>
+<button onclick="reloadTab()" class="px-2 py-1 bg-gray-700 rounded">⟳</button>
+
+<input
+id="url"
+type="text"
+placeholder="Search or enter URL..."
+class="flex-1 px-3 py-1 rounded bg-gray-700 outline-none"
+/>
+
+<button onclick="navigate()" class="px-3 py-1 bg-emerald-600 rounded">
+Go
+</button>
+
+<button onclick="newTab()" class="px-3 py-1 bg-purple-600 rounded">
++
+</button>
+
 </div>
 
-<div id="views"></div>
+<!-- Tabs -->
+<div id="tabs" class="flex gap-2 p-2 bg-gray-850 overflow-x-auto"></div>
 
-<script src="browser.js"></script>
+<!-- Views -->
+<div id="views" class="flex-1"></div>
+
+</div>
+
+<script type="module" src="/browser.js"></script>
 
 </body>
 </html>

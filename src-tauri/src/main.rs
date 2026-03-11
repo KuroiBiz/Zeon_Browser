@@ -47,6 +47,11 @@ fn add_bookmark(state: tauri::State<BrowserState>, url: String) {
 }
 
 #[tauri::command]
+fn reload_window(window: tauri::Window) {
+    let _ = window.eval("window.location.reload()");
+}
+
+#[tauri::command]
 fn get_bookmarks(state: tauri::State<BrowserState>) -> Vec<String> {
     state.bookmarks.lock().unwrap().clone()
 }
