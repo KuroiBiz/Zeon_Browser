@@ -14,43 +14,27 @@
 
 <div class="flex flex-col h-screen">
 
-<div class="flex items-center gap-2 p-3 bg-zinc-800 shadow">
+<div class="flex gap-2 p-3 bg-zinc-800">
 
-<button onclick="history.back()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">
-←
-</button>
+<button id="back">←</button>
+<button id="forward">→</button>
+<button id="reload">⟳</button>
 
-<button onclick="history.forward()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">
-→
-</button>
+<input id="url" class="flex-1 bg-zinc-700 px-3 rounded">
 
-<button onclick="reloadTab()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">
-⟳
-</button>
+<button id="go">Go</button>
 
-<input
-id="url"
-placeholder="Search or type URL"
-class="flex-1 px-4 py-2 rounded bg-zinc-700 outline-none focus:ring-2 ring-emerald-500"
-/>
-
-<button
-onclick="navigate()"
-class="px-4 py-2 bg-emerald-600 rounded hover:bg-emerald-500">
-Go
-</button>
+<button id="newTab">+</button>
 
 </div>
 
-<div class="flex-1 flex items-center justify-center text-zinc-400 text-lg">
+<div id="tabs" class="flex gap-2 p-2 bg-zinc-850"></div>
 
-WebView content loads here
-
-</div>
+<div id="views" class="flex-1"></div>
 
 </div>
 
-<script type="module" src="/browser.js"></script>
+<script type="module" src="/src/browser.js"></script>
 
 </body>
 </html>
