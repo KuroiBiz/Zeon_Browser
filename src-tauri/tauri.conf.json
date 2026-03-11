@@ -3,7 +3,6 @@
   "productName": "Zeon Browser",
   "version": "1.0.0",
   "identifier": "dev.kuroi.zeonbrowser",
-  "description": "Light as a paper",
 
   "build": {
     "frontendDist": "../src"
