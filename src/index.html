@@ -1,66 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+
 <meta charset="UTF-8">
-<title>Zeon Browser</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-.view{
-width:100%;
-height:calc(100vh - 90px);
-border:none;
-}
-
-.tab{
-padding:6px 12px;
-background:#1f2937;
-border-radius:6px;
-cursor:pointer;
-font-size:14px;
-}
-
-.tab.active{
-background:#059669;
-}
-</style>
+<title>Zeon Browser</title>
 
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="bg-zinc-900 text-white">
 
 <div class="flex flex-col h-screen">
 
-<!-- Top Bar -->
-<div class="p-2 bg-gray-800 flex items-center gap-2">
+<div class="flex items-center gap-2 p-3 bg-zinc-800 shadow">
 
-<button onclick="goBack()" class="px-2 py-1 bg-gray-700 rounded">←</button>
-<button onclick="goForward()" class="px-2 py-1 bg-gray-700 rounded">→</button>
-<button onclick="reloadTab()" class="px-2 py-1 bg-gray-700 rounded">⟳</button>
+<button onclick="history.back()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">
+←
+</button>
+
+<button onclick="history.forward()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">
+→
+</button>
+
+<button onclick="reloadTab()" class="px-3 py-1 bg-zinc-700 rounded hover:bg-zinc-600">
+⟳
+</button>
 
 <input
 id="url"
-type="text"
-placeholder="Search or enter URL..."
-class="flex-1 px-3 py-1 rounded bg-gray-700 outline-none"
+placeholder="Search or type URL"
+class="flex-1 px-4 py-2 rounded bg-zinc-700 outline-none focus:ring-2 ring-emerald-500"
 />
 
-<button onclick="navigate()" class="px-3 py-1 bg-emerald-600 rounded">
+<button
+onclick="navigate()"
+class="px-4 py-2 bg-emerald-600 rounded hover:bg-emerald-500">
 Go
-</button>
-
-<button onclick="newTab()" class="px-3 py-1 bg-purple-600 rounded">
-+
 </button>
 
 </div>
 
-<!-- Tabs -->
-<div id="tabs" class="flex gap-2 p-2 bg-gray-850 overflow-x-auto"></div>
+<div class="flex-1 flex items-center justify-center text-zinc-400 text-lg">
 
-<!-- Views -->
-<div id="views" class="flex-1"></div>
+WebView content loads here
+
+</div>
 
 </div>
 

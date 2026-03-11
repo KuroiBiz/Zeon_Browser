@@ -3,24 +3,6 @@
 use std::sync::Mutex;
 use tauri::Manager;
 use url::Url;
-use webkit2gtk::WebView;
-use webkit2gtk::traits::*;
-use gtk::prelude::*;
-
-fn create_browser(url: &str) {
-    gtk::init().unwrap();
-
-    let window = gtk::Window::new(gtk::WindowType::Toplevel);
-    window.set_default_size(1200, 800);
-
-    let webview = WebView::new();
-    webview.load_uri(url);
-
-    window.add(&webview);
-    window.show_all();
-
-    gtk::main();
-}
 
 struct BrowserState {
     history: Mutex<Vec<String>>,
@@ -33,15 +15,18 @@ fn normalize_input(input: &str) -> String {
     } else if input.contains('.') && !input.contains(' ') {
         format!("https://{}", input)
     } else {
-        format!("https://www.google.com/search?q={}", input.replace(" ", "+"))
+        format!(
+            "https://duckduckgo.com/?q={}",
+            input.replace(" ", "+")
+        )
     }
 }
 
 #[tauri::command]
 fn navigate(window: tauri::WebviewWindow, input: String) -> Result<String, String> {
     let url = normalize_input(&input);
-
     let parsed = Url::parse(&url).map_err(|e| e.to_string())?;
+
     window.navigate(parsed).map_err(|e| e.to_string())?;
 
     Ok(url)
@@ -65,29 +50,27 @@ fn add_bookmark(state: tauri::State<BrowserState>, url: String) {
 }
 
 #[tauri::command]
-fn reload_window(window: tauri::Window) {
-    let _ = window.eval("window.location.reload()");
-}
-
-#[tauri::command]
 fn get_bookmarks(state: tauri::State<BrowserState>) -> Vec<String> {
     state.bookmarks.lock().unwrap().clone()
 }
 
 #[tauri::command]
-fn reload(webview: tauri::WebviewWindow) {
-    webview.eval("window.location.reload()").unwrap();
+fn reload(window: tauri::WebviewWindow) {
+    let _ = window.eval("window.location.reload()");
 }
 
 #[tauri::command]
-fn navigate(input: String) -> String {
+fn clear_cache() -> Result<(), String> {
+    use std::fs;
 
-    if input.starts_with("http") {
-        input
-    } else {
-        format!("https://duckduckgo.com/?q={}", input)
+    let cache = dirs::cache_dir().ok_or("no cache dir")?;
+    let zeon_cache = cache.join("zeon-browser");
+
+    if zeon_cache.exists() {
+        fs::remove_dir_all(&zeon_cache).map_err(|e| e.to_string())?;
     }
 
+    Ok(())
 }
 
 #[tauri::command]
@@ -109,6 +92,8 @@ fn main() {
             get_history,
             add_bookmark,
             get_bookmarks,
+            reload,
+            clear_cache,
             download_file
         ])
         .setup(|app| {
