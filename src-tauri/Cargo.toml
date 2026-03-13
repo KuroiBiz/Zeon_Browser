@@ -1,9 +1,9 @@
 [package]
-name = "Zeon-Browser"
+name = "zeon-browser"
 version = "0.1.0"
 description = "Light as a paper"
 authors = ["Akiro Sato"]
-edition = "2026"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -19,6 +19,7 @@ tauri-build = { version = "2", features = [] }
 
 [dependencies]
 tauri = { version = "2", features = ["shell-open"] }
+uuid = { version = "1", features = ["v4"] }
 tokio = { version = "1", features = ["full"] }
 reqwest = { version = "0.12", features = ["json", "stream"] }
 url = "2"
