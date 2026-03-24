@@ -1,17 +1,17 @@
-# 🌐 Zeon Browser – Lightweight Rust Web Browser for Linux
+# 🌐 Zyra Browser – Lightweight Rust Web Browser for Linux
 
-**Zeon Browser** is a lightweight, open-source web browser built with **Rust 🦀** and **Tauri 🪶** using the **WebKitGTK rendering engine**.
+**Zyra Browser** is a lightweight, open-source web browser built with **Rust 🦀** and **Tauri 🪶** using the **WebKitGTK rendering engine**.
 It is designed to run fast on **low-end Linux devices**, older laptops, and minimal systems where modern browsers often struggle.
 
-Unlike heavy Chromium-based browsers, **Zeon Browser focuses on simplicity, speed, and privacy**, making it ideal for users who want a fast and minimal browsing experience.
+Unlike heavy Chromium-based browsers, **Zyra Browser focuses on simplicity, speed, and privacy**, making it ideal for users who want a fast and minimal browsing experience.
 
 ---
 
-# 🚀 Why Zeon Browser?
+# 🚀 Why Zyra Browser?
 
 Most modern browsers assume powerful hardware. Many users still rely on modest machines with limited RAM and CPU power.
 
-**Zeon Browser solves this problem by staying lightweight and efficient.**
+**Zyra Browser solves this problem by staying lightweight and efficient.**
 
 Key advantages:
 
@@ -21,7 +21,7 @@ Key advantages:
 * 🔐 **Privacy-friendly defaults**
 * 🧩 **Minimal and distraction-free interface**
 
-If you are looking for a **lightweight Linux browser**, Zeon is designed for you.
+If you are looking for a **lightweight Linux browser**, Zyra is designed for you.
 
 ---
 
@@ -29,7 +29,7 @@ If you are looking for a **lightweight Linux browser**, Zeon is designed for you
 
 ### 🌍 Fast Web Loading
 
-Zeon Browser uses **WebKitGTK**, the same engine used by many native Linux browsers, allowing efficient page rendering without the overhead of Chromium.
+Zyra Browser uses **WebKitGTK**, the same engine used by many native Linux browsers, allowing efficient page rendering without the overhead of Chromium.
 
 ### 🧹 Built-in Privacy Cleaner
 
@@ -57,8 +57,9 @@ Currently supported:
 
   * `.deb`
   * `AppImage`
+  * `pacman` (coming soon)
 
-Future platforms planned:
+Future platforms planned:(May takes years)
 
 * Windows
 * macOS
@@ -67,7 +68,7 @@ Future platforms planned:
 
 # 🛠️ Technology Stack
 
-Zeon Browser is built with modern technologies:
+Zyra Browser is built with modern technologies:
 
 * **Language:** Rust
 * **Framework:** Tauri
@@ -109,11 +110,11 @@ cargo tauri dev
 
 # 📊 Project Goals
 
-The goal of Zeon Browser is simple:
+The goal of Zyra Browser is simple:
 
 > Provide a fast, lightweight web browser that works well even on modest hardware.
 
-Many browsers today require large amounts of RAM and CPU power. Zeon aims to provide a **minimal and efficient alternative for Linux users**.
+Many browsers today require large amounts of RAM and CPU power. Zyra aims to provide a **minimal and efficient alternative for Linux users**.
 
 ---
 
@@ -122,6 +123,12 @@ Many browsers today require large amounts of RAM and CPU power. Zeon aims to pro
 Learn more about the project:
 
 https://kuroi.dev/
+
+---
+# 🎯 FeatherSoft 
+Part of FeatherSoft — building lightweight software for real-world devices.
+
+Website: Coming Soon 
 
 ---
 
@@ -133,11 +140,12 @@ This project is open-source.
 
 # ⭐ Support the Project
 
-If you find **Zeon Browser** useful:
+If you find **Zyra Browser** useful:
 
 * ⭐ Star the repository
 * 🐛 Report issues
 * 💡 Suggest features
 * 🔧 Contribute improvements
+* 💸 Donations coming soon
 
 Open-source projects grow with community support.
